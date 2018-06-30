@@ -1,31 +1,124 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27428.2002
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Project2", "Project2\Project2.vcxproj", "{E2C3014E-1A84-41F8-9A7B-F8D1C7E8759F}"
-EndProject
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|x64 = Debug|x64
-		Debug|x86 = Debug|x86
-		Release|x64 = Release|x64
-		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E2C3014E-1A84-41F8-9A7B-F8D1C7E8759F}.Debug|x64.ActiveCfg = Debug|x64
-		{E2C3014E-1A84-41F8-9A7B-F8D1C7E8759F}.Debug|x64.Build.0 = Debug|x64
-		{E2C3014E-1A84-41F8-9A7B-F8D1C7E8759F}.Debug|x86.ActiveCfg = Debug|Win32
-		{E2C3014E-1A84-41F8-9A7B-F8D1C7E8759F}.Debug|x86.Build.0 = Debug|Win32
-		{E2C3014E-1A84-41F8-9A7B-F8D1C7E8759F}.Release|x64.ActiveCfg = Release|x64
-		{E2C3014E-1A84-41F8-9A7B-F8D1C7E8759F}.Release|x64.Build.0 = Release|x64
-		{E2C3014E-1A84-41F8-9A7B-F8D1C7E8759F}.Release|x86.ActiveCfg = Release|Win32
-		{E2C3014E-1A84-41F8-9A7B-F8D1C7E8759F}.Release|x86.Build.0 = Release|Win32
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {6369B381-4D9C-452C-A49D-B2A26C058DAC}
-	EndGlobalSection
-EndGlobal
+#include <iostream>
+#include <string>
+#include <cstdlib>
+#include <sstream>
+#include <vector>
+using namespace std ;
+
+float string_to_float(string str_coef )
+{
+	float v;
+	v = atof(str_coef.c_str());
+	return v ;
+}
+
+string float_to_string(string flt_coef)
+{
+	string str_coef ;
+	ostringstream ss;
+	ss << flt_coef ;
+	str_coef= ss.str();
+	return str_coef;
+
+	// To convert float-to string use ostringstream variable
+	// ostringstream needs #include<sstream>
+	// ostringstream variables are used in a similar way to cout
+	// Then get the string from the ostringstream using .str
+}
+
+c++'''
+
+/*
+vector <int> v1;
+v1.push_back(10);
+cout<<v1[0];
+cout<<v1.size();
+*/
+
+int main()
+{
+	string input[100];
+	int n;
+	string command;
+	//cin >> n; 
+	//for (int z=0 ; z <100 ; z++)
+		//input[z] = 0;
+	//for (int i = 0; i < n; i++)
+		//getline(cin ,input[i] );
+	n = 3 ;
+	string s1, s2, s3;
+	s1 = "2x1+3x2+4x3=16 ";
+	s2 = "1x1+2x2+1x3=8";
+	s3 = "3x1+2x2+1x3+4x4=13";
+
+	//cin >> command;
+	//if (command == "num_vars")
+	//if (command == "column x2")
+	//if (command==" jj ")
+	//system("pause");
+
+
+
+	//string equation;
+	//cout << "enter the equation ";
+	//getline(cin, equation);
+	string arr[200][200];
+
+	//for (int r=0 ; r<100 ; r++)
+	//{
+		//for (int c=0; c<100 ; c++)
+			//arr[r][c] = 0 ;
+	//}
+
+	int m = 0;
+	for (int r = 0; r < n; r++)
+	{
+		int first_pos = 0;
+		int second_pos = 0;
+		int counter_neg = 0;
+		int eq_sign = input[m].find("=");
+		for (int c = 0; c < 200; c++)
+		{
+			int pls_sign;
+			int neg_sign;
+			while (1)
+			{
+				pls_sign = input[m].find("+", first_pos);
+				neg_sign = input[m].find("-", first_pos);
+				if (pls_sign == -1 && neg_sign == -1)
+				{
+					arr[r][c] = input[m].substr(first_pos, eq_sign - first_pos);
+					break;
+				}
+
+				if (pls_sign < neg_sign)
+					second_pos = pls_sign;
+				if (neg_sign < pls_sign)
+					second_pos = neg_sign;
+
+				if (neg_sign == -1 && pls_sign > -1)
+					second_pos = pls_sign;
+				if (pls_sign == -1 && neg_sign > -1)
+					second_pos = neg_sign;
+
+				arr[r][c] = input[m].substr(first_pos, second_pos - first_pos);
+					first_pos = second_pos + 1;
+
+				if (counter_neg > 0)
+				{
+					arr[r][c].insert(arr[r][c].begin(), '-');
+			    	counter_neg = 0;
+				}
+				if (input[m].substr(second_pos, 1) == "-")
+					counter_neg++;
+
+				break;
+			}
+
+			if (pls_sign == -1 && neg_sign == -1)
+				break;
+		}
+		m = m + 1;
+	}
+
+}
